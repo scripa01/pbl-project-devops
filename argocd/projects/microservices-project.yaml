@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: microservices
+  namespace: argocd
+spec:
+  description: Project for all microservices apps
+  sourceRepos:
+    - "*" # allow apps from any Git repo, or specify your repo URL(s)
+  destinations:
+    - namespace: apis # allow deploying to any namespace (or specify specific namespaces)
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceBlacklist:
+    - group: ""
+      kind: "Event" # prevent apps from managing Event objects
+  syncWindows: []

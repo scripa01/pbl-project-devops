@@ -1,0 +1,6 @@
+apiVersion: v2
+name: backend-apiservice
+description: A basic Helm chart for my backend-api
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

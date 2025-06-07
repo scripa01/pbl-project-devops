@@ -1,0 +1,6 @@
+apiVersion: v2
+name: board-task-api-service
+description: A basic Helm chart for my board-task-api
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

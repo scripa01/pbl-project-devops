@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authorization-user-api
+  namespace: argocd
+spec:
+  project: microservices
+  source:
+    repoURL: 'https://github.com/scripa01/pbl-project-devops'
+    targetRevision: HEAD
+    path: charts/authorization-user-api
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apis
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
