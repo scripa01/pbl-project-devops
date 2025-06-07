@@ -7,7 +7,7 @@ spec:
   project: microservices
   source:
     repoURL: "https://github.com/scripa01/pbl-project-devops"
-    targetRevision: HEAD
+    targetRevision: main
     path: charts/organization-project-user-api
   destination:
     server: https://kubernetes.default.svc
