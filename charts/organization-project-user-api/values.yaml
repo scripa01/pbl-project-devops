@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: europe-north1-docker.pkg.dev/problem-based-learning-462218/organization-project-user-api/organization-project-user-api
-  tag: cd5f
+  tag: "cd5f"
 
 service:
   port: 80
