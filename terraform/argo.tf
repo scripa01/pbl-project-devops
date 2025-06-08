@@ -42,6 +42,12 @@ data "kubernetes_service" "argocd_server" {
   }
 }
 
+resource "kubernetes_namespace" "apis" {
+  metadata {
+    name = "apis"
+  }
+}
+
 
 
 
