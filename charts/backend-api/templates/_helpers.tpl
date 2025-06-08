@@ -3,5 +3,5 @@
 {{- end -}}
 
 {{- define "microservice.fullname" -}}
-{{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- .Chart.Name -}}
 {{- end -}}

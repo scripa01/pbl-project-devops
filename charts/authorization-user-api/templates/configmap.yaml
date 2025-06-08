@@ -5,3 +5,4 @@ metadata:
 data:
     SPRING_DATASOURCE_URL: jdbc:postgresql://172.31.0.7:5432/authorization-user-api
     SPRING_DATASOURCE_USERNAME: postgres
+    ORG_SERVICE_URl: 1
