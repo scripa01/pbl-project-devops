@@ -1,5 +1,9 @@
-provider "google" {
+locals {
   project = "problem-based-learning-462218"
+}
+
+provider "google" {
+  project = local.project
   region  = "europe-north1"
 }
 
@@ -56,8 +60,30 @@ variable "docker_repo_names" {
 }
 
 resource "google_artifact_registry_repository" "repos" {
-  for_each     = toset(var.docker_repo_names)
+  for_each      = toset(var.docker_repo_names)
   repository_id = each.key
   description   = "Docker repo for ${each.key}"
   format        = "DOCKER"
+}
+
+resource "google_service_account" "github_actions" {
+  account_id   = "github-actions"
+  display_name = "GitHub Actions CI"
+}
+
+resource "google_project_iam_member" "artifact_registry_writer" {
+  project = local.project
+  role    = "roles/artifactregistry.writer"
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+resource "google_project_iam_member" "storage_admin" {
+  project = local.project
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+resource "google_service_account_key" "github_actions_key" {
+  service_account_id = google_service_account.github_actions.name
+  private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE"
 }
