@@ -6,4 +6,4 @@ image:
 
 service:
   port: 80
-  targetPort: 8080
+  targetPort: 8089
