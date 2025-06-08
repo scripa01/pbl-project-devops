@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
+  repository: europe-north1-docker.pkg.dev/problem-based-learning-462218/backend-api/backend-api
+  tag: 2543
 
 service:
   port: 80

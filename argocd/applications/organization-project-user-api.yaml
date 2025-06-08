@@ -4,9 +4,9 @@ metadata:
   name: organization-project-user-api
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: repo=repo=europe-north1-docker.pkg.dev/problem-based-learning-462218/organization-project-user-api/organization-project-user-api
+    argocd-image-updater.argoproj.io/image-list: repo=europe-north1-docker.pkg.dev/problem-based-learning-462218/organization-project-user-api/organization-project-user-api
     argocd-image-updater.argoproj.io/repo.update-strategy: newest-build
-    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/repo.write-back-method: git
 spec:
   project: microservices
   source:

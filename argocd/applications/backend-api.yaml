@@ -4,13 +4,13 @@ metadata:
   name: backend-api
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: repo=repo=europe-north1-docker.pkg.dev/problem-based-learning-462218/backend-api/backend-api
+    argocd-image-updater.argoproj.io/image-list: repo=europe-north1-docker.pkg.dev/problem-based-learning-462218/backend-api/backend-api
     argocd-image-updater.argoproj.io/repo.update-strategy: newest-build
-    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/repo.write-back-method: git
 spec:
   project: microservices
   source:
-    repoURL: 'https://github.com/scripa01/pbl-project-devops'
+    repoURL: "https://github.com/scripa01/pbl-project-devops"
     targetRevision: main
     path: charts/backend-api
   destination:

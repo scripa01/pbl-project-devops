@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
+  repository: europe-north1-docker.pkg.dev/problem-based-learning-462218/board-task-api/board-task-api
+  tag: 25e8
 
 service:
   port: 80
