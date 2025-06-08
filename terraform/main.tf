@@ -50,3 +50,14 @@ resource "google_container_cluster" "default" {
   deletion_protection = false
 }
 # [END gke_quickstart_autopilot_cluster]
+
+variable "docker_repo_names" {
+  default = ["authorization-user-api", "backend-api", "board-task-api", "organization-project-user-api"]
+}
+
+resource "google_artifact_registry_repository" "repos" {
+  for_each     = toset(var.docker_repo_names)
+  repository_id = each.key
+  description   = "Docker repo for ${each.key}"
+  format        = "DOCKER"
+}
