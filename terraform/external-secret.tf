@@ -33,9 +33,10 @@ resource "google_service_account_iam_binding" "workload_identity_binding" {
   service_account_id = google_service_account.eso_sa.name
   role               = "roles/iam.workloadIdentityUser"
   members = [
-    "serviceAccount:${local.project}.svc.id.goog[external-secrets/eso-sa]"
+    "serviceAccount:${local.project}.svc.id.goog[apis/eso-sa]"
   ]
 }
+
 
 resource "kubernetes_manifest" "secret_store" {
   manifest = {
