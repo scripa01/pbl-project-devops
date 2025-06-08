@@ -3,4 +3,5 @@ kind: ConfigMap
 metadata:
   name: {{ include "microservice.fullname" . }}-config
 data:
-  my-config-key: "my-config-value"
+    SPRING_DATASOURCE_URL: jdbc:postgresql://172.31.0.7:5432/authorization-user-api
+    SPRING_DATASOURCE_USERNAME: postgres

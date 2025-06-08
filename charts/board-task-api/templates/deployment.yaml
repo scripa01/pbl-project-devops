@@ -1,24 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "microservice.fullname" . }}
+  name: { { include "microservice.fullname" . } }
   labels:
-    app: {{ include "microservice.name" . }}
+    app: { { include "microservice.name" . } }
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: { { .Values.replicaCount } }
   selector:
     matchLabels:
-      app: {{ include "microservice.name" . }}
+      app: { { include "microservice.name" . } }
   template:
     metadata:
       labels:
-        app: {{ include "microservice.name" . }}
+        app: { { include "microservice.name" . } }
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: { { .Chart.Name } }
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: {{ .Values.service.port }}
-          envFrom:
-            - configMapRef:
+            - containerPort: { { .Values.service.port } }
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+              configMapKeyRef:
                 name: {{ include "microservice.fullname" . }}-config
+                key: SPRING_DATASOURCE_URL
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "microservice.fullname" . }}-config
+                  key: SPRING_DATASOURCE_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "microservice.name" . }}-secret
+                  key: POSTGRES_PASSWORD

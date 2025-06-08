@@ -19,6 +19,21 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: {{ .Values.service.port }}
-          envFrom:
-            - configMapRef:
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+              configMapKeyRef:
                 name: {{ include "microservice.fullname" . }}-config
+                key: SPRING_DATASOURCE_URL
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "microservice.fullname" . }}-config
+                  key: SPRING_DATASOURCE_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "microservice.name" . }}-secret
+                  key: POSTGRES_PASSWORD
