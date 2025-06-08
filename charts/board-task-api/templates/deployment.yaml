@@ -28,9 +28,9 @@ spec:
 
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: {{ include "microservice.fullname" . }}-config
-                  key: SPRING_DATASOURCE_USERNAME
+              configMapKeyRef:
+                name: {{ include "microservice.fullname" . }}-config
+                key: SPRING_DATASOURCE_USERNAME
 
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
