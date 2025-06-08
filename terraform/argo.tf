@@ -55,6 +55,10 @@ resource "helm_release" "argocd_image_updater" {
 
   values = [
     <<EOF
+serviceAccount:
+  create: false
+  name: argocd-image-updater-sa
+
 config:
   registries:
     - name: GCP Artifact Registry
