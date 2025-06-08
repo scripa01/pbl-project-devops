@@ -22,7 +22,7 @@ resource "google_project_iam_member" "eso_secret_access" {
 resource "kubernetes_service_account" "eso_ksa" {
   metadata {
     name      = "eso-sa"
-    namespace = "external-secrets"
+    namespace = "apis"
     annotations = {
       "iam.gke.io/gcp-service-account" = google_service_account.eso_sa.email
     }
