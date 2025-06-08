@@ -5,7 +5,7 @@ resource "helm_release" "eso" {
 
   repository = "https://charts.external-secrets.io"
   chart      = "external-secrets"
-  version    = "0.17.0"
+  version    = "0.14.2"
 }
 
 resource "google_service_account" "eso_sa" {
@@ -35,6 +35,33 @@ resource "google_service_account_iam_binding" "workload_identity_binding" {
   members = [
     "serviceAccount:${local.project}.svc.id.goog[external-secrets/eso-sa]"
   ]
+}
+
+resource "kubernetes_manifest" "secret_store" {
+  manifest = {
+    apiVersion = "external-secrets.io/v1beta1"
+    kind       = "SecretStore"
+    metadata = {
+      name      = "gcp-secret-store"
+      namespace = "apis"
+    }
+    spec = {
+      provider = {
+        gcpsm = {
+          projectID = local.project
+          auth = {
+            workloadIdentity = {
+              clusterName     = google_container_cluster.default.name
+              clusterLocation = google_container_cluster.default.location
+              serviceAccountRef = {
+                name = kubernetes_service_account.eso_ksa.metadata[0].name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 
