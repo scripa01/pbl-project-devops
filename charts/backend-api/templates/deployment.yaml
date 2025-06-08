@@ -18,22 +18,16 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: {{ .Values.service.targetPort }}
+            - containerPort: {{ .Values.service.port }}
           env:
-            - name: SPRING_DATASOURCE_URL
+            - name:  ORG_SERVICE_URL_ORGANIZATION_PROJECT_USER
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "microservice.fullname" . }}-config
-                  key: SPRING_DATASOURCE_URL
+                  key:  ORG_SERVICE_URL_ORGANIZATION_PROJECT_USER
 
-            - name: SPRING_DATASOURCE_USERNAME
+            - name: ORG_SERVICE_URL_BOARD_TASK
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "microservice.fullname" . }}-config
-                  key: SPRING_DATASOURCE_USERNAME
-
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "microservice.name" . }}-secret
-                  key: POSTGRES_PASSWORD
+                  key: ORG_SERVICE_URL_BOARD_TASK

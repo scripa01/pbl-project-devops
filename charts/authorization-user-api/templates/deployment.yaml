@@ -37,3 +37,10 @@ spec:
                 secretKeyRef:
                   name: {{ include "microservice.name" . }}-secret
                   key: POSTGRES_PASSWORD
+
+            - name: ORG_SERVICE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "microservice.name" . }}-secret
+                  key: ORG_SERVICE_URL
+            

@@ -3,4 +3,5 @@ kind: ConfigMap
 metadata:
   name: {{ include "microservice.fullname" . }}-config
 data:
-  my-config-key: "my-config-value"
+  ORG_SERVICE_URL_ORGANIZATION_PROJECT_USER: "http://organization-project-user-api-service.svc.cluster.local"
+  ORG_SERVICE_URL_BOARD_TASK: "http://board-task-api-service.svc.cluster.local"
