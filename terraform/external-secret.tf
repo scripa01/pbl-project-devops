@@ -1,0 +1,40 @@
+resource "helm_release" "eso" {
+  name             = "external-secrets"
+  namespace        = "external-secrets"
+  create_namespace = true
+
+  repository = "https://charts.external-secrets.io"
+  chart      = "external-secrets"
+  version    = "0.17.0"
+}
+
+resource "google_service_account" "eso_sa" {
+  account_id   = "eso-sa"
+  display_name = "External Secrets Operator SA"
+}
+
+resource "google_project_iam_member" "eso_secret_access" {
+  project = local.project
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.eso_sa.email}"
+}
+
+resource "kubernetes_service_account" "eso_ksa" {
+  metadata {
+    name      = "eso-sa"
+    namespace = "external-secrets"
+    annotations = {
+      "iam.gke.io/gcp-service-account" = google_service_account.eso_sa.email
+    }
+  }
+}
+
+resource "google_service_account_iam_binding" "workload_identity_binding" {
+  service_account_id = google_service_account.eso_sa.name
+  role               = "roles/iam.workloadIdentityUser"
+  members = [
+    "serviceAccount:${local.project}.svc.id.goog[external-secrets/eso-sa]"
+  ]
+}
+
+

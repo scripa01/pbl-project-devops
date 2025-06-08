@@ -32,6 +32,25 @@ resource "google_compute_subnetwork" "default" {
     range_name    = "pod-ranges"
     ip_cidr_range = "192.168.1.0/24"
   }
+
+  secondary_ip_range {
+    range_name    = "pod-ranges-2"
+    ip_cidr_range = "192.168.16.0/20"
+  }
+}
+
+resource "google_compute_global_address" "private_ip_range" {
+  name          = "google-managed-services"
+  purpose       = "VPC_PEERING"
+  address_type  = "INTERNAL"
+  prefix_length = 16
+  network       = google_compute_network.default.id
+}
+
+resource "google_service_networking_connection" "private_vpc_connection" {
+  network                 = google_compute_network.default.id
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = [google_compute_global_address.private_ip_range.name]
 }
 
 resource "google_container_cluster" "default" {
@@ -47,6 +66,12 @@ resource "google_container_cluster" "default" {
     stack_type                    = "IPV4_IPV6"
     services_secondary_range_name = google_compute_subnetwork.default.secondary_ip_range[0].range_name
     cluster_secondary_range_name  = google_compute_subnetwork.default.secondary_ip_range[1].range_name
+
+    additional_pod_ranges_config {
+      pod_range_names = [
+        google_compute_subnetwork.default.secondary_ip_range[2].range_name
+      ]
+    }
   }
 
   # Set `deletion_protection` to `true` will ensure that one cannot

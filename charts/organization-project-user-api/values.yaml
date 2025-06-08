@@ -6,3 +6,6 @@ image:
 
 service:
   port: 80
+
+secrets:
+  postgres_password_key: org-db-password
